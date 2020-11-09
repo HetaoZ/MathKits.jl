@@ -67,11 +67,12 @@ function cross_product(a::Vector{T} where T <: Number, b::Vector{T} where T <: N
     if (length(a), length(b)) == (3, 3)
         return eltype(a)[a[2]*b[3]-b[2]*a[3], a[3]*b[1]-a[1]*b[3], a[1]*b[2]-b[1]*a[2]] 
     elseif (length(a), length(b)) == (2, 2)
-        return eltype(a)(a[1]*b[2]-b[1]*a[2])
+        return eltype(a)[0,0,a[1]*b[2]-b[1]*a[2]]
     else
         error("undef dim")
     end
 end
+
 export cross_product
 
 function d2udx2(h::Float64, u1::Float64, u2::Float64, u3::Float64, u4::Float64, u5::Float64)
@@ -92,6 +93,7 @@ d(du/dx)dy
 function d2udxdy(hx::Float64, hy::Float64, u::Array{Float64})
     return dudx(hy, [dudx(hx, u[:, j]) for j = 1:size(u, 2)])
 end
+
 export d2udxdy
 
 @doc """
@@ -102,11 +104,13 @@ d(du/dy)dx
 function d2udydx(hx::Float64, hy::Float64, u::Array{Float64})
     return dudx(hx, [dudx(hy, u[i, :]) for i = 1:size(u, 1)])
 end
+
 export d2udydx
 
 function dudx(h::Float64, u1::Float64, u2::Float64)
     return (u2 - u1)/h
 end
+
 export dudx
 
 @doc """
@@ -133,11 +137,13 @@ function distance_to_segment(point::Array{T} where T <: Number, vertex1::Array{T
         return min(norm(point - vertex1), norm(point - vertex2))
     end
 end
+
 export distance_to_segment
 
 function get_normal(v::Vector{Float64})
     return normalize(rotate_matrix(pi/2) * v)
 end
+
 export get_normal
 
 function get_volume(xs::Array{Float64}...)
@@ -151,6 +157,7 @@ function get_volume(xs::Array{Float64}...)
     end
     return volume
 end
+
 export get_volume
 
 function lin_interp(x::T, φL::T, xL::T, φR::T, xR::T) where T <: Real
@@ -160,6 +167,7 @@ function lin_interp(x::T, φL::T, xL::T, φR::T, xR::T) where T <: Real
     aR = xR - x
     return (φL * aR + φR * aL) / a
 end
+
 export lin_interp
 
 @doc """
@@ -173,6 +181,7 @@ function mirrored_on_line(x0::Float64, y0::Float64, x1::Float64, y1::Float64, x2
     xI = 2 * xH - [x0, y0]  
     return xI, xH, lambda
 end
+
 export mirrored_on_line
 
 @doc """
@@ -181,6 +190,7 @@ export mirrored_on_line
 Return the sum of all squares of element of the array `v`, i.e., `norm2!(v) = norm!(v)^2`.
 """ ->
 norm2(v::Array{T} where T <: Number) = norm(v)^2
+
 export norm2
 
 #计算任意多边形的面积，顶点按照顺时针或者逆时针方向排列
@@ -195,6 +205,7 @@ function polygon_area(x::Array, y::Array)
     end
     return abs(s) * 0.5
 end
+
 export polygon_area
 
 @doc """
@@ -209,6 +220,7 @@ function product(v::Array{T} where T <: Number)
     end
     return eltype(v)(s)
 end
+
 export product
 
 @doc """
@@ -223,6 +235,7 @@ function product!(v::Array{T} where T <: Number)
     end
     return eltype(v)(s)
 end
+
 export product!
 
 @doc """
@@ -236,6 +249,7 @@ function root_on_segment(point::Array{T} where T <: Number, vertex1::Array{T} wh
     root = vertex1 + lambda * AB
     return root, lambda
 end
+
 export root_on_segment
 
 @doc """
@@ -244,6 +258,7 @@ arc angle, not degree
 function rotate_matrix(angle::Real)
     return [cos(angle) -sin(angle); sin(angle) cos(angle)]
 end
+
 export rotate_matrix
 
 function shape_star(n::Int; center::Vector = [0, 0], R::Real = 1, r::Real = 1, angle::Real = 0)
@@ -258,6 +273,7 @@ function shape_star(n::Int; center::Vector = [0, 0], R::Real = 1, r::Real = 1, a
 
     return X, Y
 end
+
 export shape_star
 
 # ----------------------------------- #
