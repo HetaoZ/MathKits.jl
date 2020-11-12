@@ -7,6 +7,7 @@ Available functions: `between`, `betweeneq`, `cross_product`, `distance_to_segme
 """ ->
 module MathKits
 using Markdown, LinearAlgebra, Statistics
+using SpecialFunctions
 
 # -----------------------------------
 # macros
@@ -22,6 +23,11 @@ function affine_matrix(theta::Float64, d::Vector{Float64}; s::Vector{Float64} = 
     return A1, A2
 end
 export affine_matrix
+
+function ball_volume(r, dim)
+    pi^(dim/2)/gamma(dim/2+1)*r^dim
+end
+export ball_volume
 
 function between(p::Array, point1::Array, point2::Array)
     ans = true
@@ -208,35 +214,10 @@ end
 
 export polygon_area
 
-@doc """
-`ans = product(v::Array{T} where T <: Number)`
-
-Return the product of all elements of the array `v`.
-""" ->
-function product(v::Array{T} where T <: Number)
-    s = 1.
-    for a in v
-        s *= a
-    end
-    return eltype(v)(s)
+function rect_radius(d::Vector)
+    n = length(d)
+    return (prod(d) * gamma(n/2+1)/pi^(n/2)) ^ (1/n)
 end
-
-export product
-
-@doc """
-`ans = product!(v::Array{T} where T <: Number)`
-
-Return the product of all elements of the array `v`.
-""" ->
-function product!(v::Array{T} where T <: Number)
-    s = 1.
-    for a in v
-        s *= a
-    end
-    return eltype(v)(s)
-end
-
-export product!
 
 @doc """
 `root, lambda = root_on_segment(point::Array{T} where T <: Number, vertex1::Array{T} where T <: Number, vertex2::Array{T} where T <: Number)`

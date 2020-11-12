@@ -7,8 +7,9 @@ version = "0.1.0"
 julia = "1.5"
 
 [deps]
-Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [extras]
