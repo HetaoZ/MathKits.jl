@@ -152,7 +152,7 @@ end
 
 export get_normal
 
-function get_volume(xs::Array{Float64}...)
+function get_volume(xs::Vector...)
     dim = length(xs)
     if dim == 1
         volume = maximum(xs[1]) - minimum(xs[1])
