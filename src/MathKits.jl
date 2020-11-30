@@ -167,7 +167,6 @@ end
 export get_volume
 
 function lin_interp(x::T, φL::T, xL::T, φR::T, xR::T) where T <: Real
-    @assert !isnan(φL + φR)
     a = xR - xL
     aL = x - xL
     aR = xR - x
