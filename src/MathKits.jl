@@ -137,7 +137,7 @@ Return the distance of `point` to a finite-length segment from `vertex1` to `ver
 """ ->
 function distance_to_segment(point::Array{T} where T <: Number, vertex1::Array{T} where T <: Number, vertex2::Array{T} where T <: Number)
     root, lambda = root_on_segment(point, vertex1, vertex2)
-    if betweeneq(root, vertex1, vertex2)        
+    if betweeneq(root[1], vertex1[1], vertex2[1]) || betweeneq(root[2], vertex1[2], vertex2[2])        
         return norm(point - root)
     else
         return min(norm(point - vertex1), norm(point - vertex2))
