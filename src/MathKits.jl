@@ -204,7 +204,9 @@ norm2(v::Array{T} where T <: Number) = norm(v)^2
 
 export norm2
 
-#计算任意多边形的面积，顶点按照顺时针或者逆时针方向排列
+@doc """
+计算任意多边形的面积，顶点按照逆时针方向排列时为正值，反之为负值。顶点数小于3时为零。
+"""->
 function polygon_area(x::Array, y::Array)
     n = length(x)
     if n < 3 
@@ -214,7 +216,7 @@ function polygon_area(x::Array, y::Array)
     for i = 2:n-1
         s += x[i]*(y[i+1] - y[i-1])
     end
-    return abs(s) * 0.5
+    return s * 0.5
 end
 
 export polygon_area
