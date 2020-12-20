@@ -39,6 +39,9 @@ function between(p::Array, point1::Array, point2::Array)
     end
     return ans
 end
+function between(p::Real, point1::Real, point2::Real)
+    return (p > point1 && p < point2) || (p < point1 && p > point2)
+end
 export between
 
 function betweeneq(p::Array, point1::Array, point2::Array)
@@ -50,6 +53,9 @@ function betweeneq(p::Array, point1::Array, point2::Array)
         end
     end
     return ans
+end
+function betweeneq(p::Real, point1::Real, point2::Real)
+    return (p >= point1 && p <= point2) || (p <= point1 && p >= point2)
 end
 export betweeneq
 
@@ -137,10 +143,10 @@ Return the distance of `point` to a finite-length segment from `vertex1` to `ver
 """ ->
 function distance_to_segment(point::Array{T} where T <: Number, vertex1::Array{T} where T <: Number, vertex2::Array{T} where T <: Number)
     root, lambda = root_on_segment(point, vertex1, vertex2)
-    if betweeneq(root[1], vertex1[1], vertex2[1]) || betweeneq(root[2], vertex1[2], vertex2[2])        
-        return norm(point - root)
-    else
+    if lambda > 1. || lambda < 0.
         return min(norm(point - vertex1), norm(point - vertex2))
+    else
+        return norm(point - root)
     end
 end
 
