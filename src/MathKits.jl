@@ -141,7 +141,7 @@ end
 
 Return the distance of `point` to a finite-length segment from `vertex1` to `vertex2`.
 """ ->
-function distance_to_segment(point::Array{T} where T <: Number, vertex1::Array{T} where T <: Number, vertex2::Array{T} where T <: Number)
+function distance_to_segment(point::Vector{Float64} , vertex1::Vector{Float64} , vertex2::Vector{Float64} ) 
     root, lambda = root_on_segment(point, vertex1, vertex2)
     if lambda > 1. || lambda < 0.
         return min(norm(point - vertex1), norm(point - vertex2))
@@ -231,11 +231,10 @@ end
 
 Return the `root` point and length ratio `lambda` of `point` on the segment from `vertex1` to `vertex2`. The length ratio 'lambda = ||root - vertex1|| / ||vertex2 - vertex1||`. Note that `lambda < 0` or `lambda > 1` when `root` lies out of the segment. 
 """ ->
-function root_on_segment(point::Array{T} where T <: Number, vertex1::Array{T} where T <: Number, vertex2::Array{T} where T <: Number)
+function root_on_segment(point::Vector{Float64}, vertex1::Vector{Float64}, vertex2::Vector{Float64})
     AC, AB = point - vertex1, vertex2 - vertex1
     lambda = norm(AC .* AB) / norm(AB .* AB)
-    root = vertex1 + lambda * AB
-    return root, lambda
+    return vertex1 + lambda * AB, lambda
 end
 
 export root_on_segment
